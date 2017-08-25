@@ -8,26 +8,13 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/feature"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
 	"github.com/whosonfirst/go-whosonfirst-log"
+	"github.com/whosonfirst/go-whosonfirst-mmdb"
 	"github.com/whosonfirst/go-whosonfirst-uri"
 	"io"
 	"os"
 	"path/filepath"
 	"strconv"
 )
-
-type GeonamesLookup map[int32][]*MaxMindRecord
-
-type MaxMindRecord struct {
-	Id           int64   `json:"wof:id"`
-	Name         string  `json:"wof:name"`
-	Placetype    string  `json:"wof:placetype"`
-	Latitude     float64 `json:"wof:latitude"`
-	Longitude    float64 `json:"wof:longitude"`
-	MinLatitude  float64 `json:"geom:min_latitude"`
-	MinLongitude float64 `json:"geom:min_longitude"`
-	MaxLatitude  float64 `json:"geom:max_latitude"`
-	MaxLongitude float64 `json:"geom:max_longitude"`
-}
 
 func main() {
 
@@ -45,7 +32,7 @@ func main() {
 		logger.Fatal("failed to open %s, because %s", *concordances, err)
 	}
 
-	lookup := make(map[int64][]*MaxMindRecord)
+	lookup := make(map[int64][]*mmdb.SPRRecord)
 
 	root := filepath.Join(*data_root, *repo)
 	data := filepath.Join(root, "data")
@@ -110,6 +97,7 @@ func main() {
 		to_process := make(map[int64]geojson.Feature)
 		to_process[wofid] = f
 
+		/*
 		hiers := whosonfirst.Hierarchy(f)
 
 		for _, hier := range hiers {
@@ -137,12 +125,13 @@ func main() {
 				to_process[id] = f
 			}
 		}
+		*/
 
-		mm_records := make([]*MaxMindRecord, 0)
+		mm_records := make([]*mmdb.SPRRecord, 0)
 
 		for id, f := range to_process {
 
-			mm, err := Feature2MaxMindRecord(f)
+			mm, err := FeatureToSPRRecord(f)
 
 			if err != nil {
 				logger.Fatal("failed to create MM record for %d because %s", id, err)
@@ -164,7 +153,7 @@ func main() {
 	writer.Write(enc)
 }
 
-func Feature2MaxMindRecord(f geojson.Feature) (*MaxMindRecord, error) {
+func FeatureToSPRRecord(f geojson.Feature) (*mmdb.SPRRecord, error) {
 
 	id, _ := strconv.ParseInt(f.Id(), 10, 64)
 	name := f.Name()
@@ -185,7 +174,7 @@ func Feature2MaxMindRecord(f geojson.Feature) (*MaxMindRecord, error) {
 	coord := centroid.Coord()
 	mbr := bboxes.MBR()
 	
-	mm := MaxMindRecord{
+	mm := mmdb.SPRRecord{
 		Id:           id,
 		Name:         name,
 		Placetype:    pt,

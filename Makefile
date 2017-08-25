@@ -5,7 +5,10 @@ prep:
 	if test -d pkg; then rm -rf pkg; fi
 
 self:   prep rmdeps
-	cp -r vendor src
+	if -d src; then rm -rf src; fi
+	mkdir -p src/github.com/whosonfirst/go-whosonfirst-mmdb/
+	cp *.go src/github.com/whosonfirst/go-whosonfirst-mmdb/
+	cp -r vendor/* src/
 	cp -r vendor/github.com/whosonfirst/go-whosonfirst-geojson-v2/vendor/src/github.com/tidwall src/github.com/
 	cp -r vendor/github.com/whosonfirst/go-whosonfirst-geojson-v2/vendor/src/github.com/whosonfirst/go-whosonfirst-hash src/github.com/whosonfirst/
 	cp -r vendor/github.com/whosonfirst/go-whosonfirst-geojson-v2/vendor/src/github.com/whosonfirst/go-whosonfirst-placetypes src/github.com/whosonfirst/
