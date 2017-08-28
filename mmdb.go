@@ -1,16 +1,29 @@
 package mmdb
 
-// is this really an SPR? not really... that's what we're trying to
-// figure out... (20170824/thisisaaronland)
+import (
+	"encoding/json"
+	"errors"
+	"github.com/whosonfirst/go-whosonfirst-geojson-v2/feature"
+	"github.com/whosonfirst/go-whosonfirst-spr"
+)
 
-type SPRRecord struct {
-	Id           int64   `json:"wof:id"`
-	Name         string  `json:"wof:name"`
-	Placetype    string  `json:"wof:placetype"`
-	Latitude     float64 `json:"wof:latitude"`
-	Longitude    float64 `json:"wof:longitude"`
-	MinLatitude  float64 `json:"geom:min_latitude"`
-	MinLongitude float64 `json:"geom:min_longitude"`
-	MaxLatitude  float64 `json:"geom:max_latitude"`
-	MaxLongitude float64 `json:"geom:max_longitude"`
+func ResultToWOFStandardPlacesResult(r interface{}) (spr.StandardPlacesResult, error) {
+
+	i := r.(map[string]interface{})
+	str_body, ok := i["spr"]
+
+	if !ok {
+		return nil, errors.New("Result is missing a 'spr' attribute")
+	}
+
+	body := []byte(str_body.(string))
+
+	var s feature.WOFStandardPlacesResult
+	err := json.Unmarshal(body, &s)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &s, nil
 }

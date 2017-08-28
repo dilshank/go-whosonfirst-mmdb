@@ -22,6 +22,7 @@ deps:
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-csv"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-geojson-v2"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-log"
+	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-spr"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-uri"
 
 vendor-deps: rmdeps deps
@@ -32,6 +33,7 @@ vendor-deps: rmdeps deps
 	rm -rf src
 
 fmt:
+	go fmt *.go
 	go fmt cmd/*.go
 
 bin: 	self
