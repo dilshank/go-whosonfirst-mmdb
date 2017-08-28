@@ -93,6 +93,12 @@ func main() {
 			logger.Fatal("failed to load %s because %s", abs_path, err)
 		}
 
+		// As of this writing we are just bolting a JSON-encoding SPR to the mmdb
+		// record an unserializing it in go-whosonfirst-mmdb/provider/whosonfirst.go
+		// This will likely change (to use something more MMDB specific) but it will
+		// do for now since we're just trying to teach all the MMDB/IP lookup stuff
+		// to use _an_ SPR in the first place (20170828/thisisaaronland)
+
 		s, err := f.SPR()
 
 		if err != nil {

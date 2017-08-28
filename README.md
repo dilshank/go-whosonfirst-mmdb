@@ -18,10 +18,10 @@ Too soon. Move along. Really, it's too soon.
 
 ## Tools
 
-## wof-mmdb-lookup
+## wof-mmdb-prepare
 
 ```
- ./bin/wof-mmdb-lookup -concordances /usr/local/data-ext/maxmind-data/201708/wof-geonames.csv > lookup.json
+ ./bin/wof-mmdb-prepare -concordances /usr/local/data-ext/maxmind-data/201708/wof-geonames.csv > lookup.json
 ```
 
 This tool is designed to take a CSV file mapping Geonames ID to Who's On First ID and produce a JSON file that can be consumed by the [p5-Whosonfirst-MaxMind-Writer](https://github.com/whosonfirst/p5-Whosonfirst-MaxMind-Writer) library. For example:

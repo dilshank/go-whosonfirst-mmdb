@@ -44,5 +44,5 @@ fmt:
 
 bin: 	self
 	@GOPATH=$(GOPATH) go build -o bin/wof-mmdb cmd/wof-mmdb.go
+	@GOPATH=$(GOPATH) go build -o bin/wof-mmdb-prepare cmd/wof-mmdb-prepare.go
 	@GOPATH=$(GOPATH) go build -o bin/wof-mmdb-server cmd/wof-mmdb-server.go
-	@GOPATH=$(GOPATH) go build -o bin/wof-mmdb-lookup cmd/wof-mmdb-lookup.go
