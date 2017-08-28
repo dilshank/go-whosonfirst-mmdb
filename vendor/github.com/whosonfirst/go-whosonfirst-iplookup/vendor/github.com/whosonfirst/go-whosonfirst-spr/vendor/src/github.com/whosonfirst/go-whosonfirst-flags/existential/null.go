@@ -2,7 +2,6 @@ package existential
 
 import (
 	"github.com/whosonfirst/go-whosonfirst-flags"
-	"strconv"
 )
 
 type NullFlag struct {
@@ -15,12 +14,8 @@ func NewNullFlag() (flags.ExistentialFlag, error) {
 	return &n, nil
 }
 
-func (f *NullFlag) StringFlag() string {
-	return strconv.FormatInt(f.Flag(), 10)
-}
-
 func (f *NullFlag) Flag() int64 {
-	return -1
+	return -999
 }
 
 func (f *NullFlag) IsTrue() bool {

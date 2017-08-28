@@ -1,0 +1,7 @@
+*~
+pkg
+src
+bin/wof-*
+*.mmdb
+#~
+!vendor/src
