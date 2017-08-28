@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/oschwald/maxminddb-golang"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/feature"
+	"github.com/whosonfirst/go-whosonfirst-iplookup"
 	"github.com/whosonfirst/go-whosonfirst-spr"
 	"net"
 )
@@ -47,7 +48,7 @@ func (pr *WOFProvider) Query(addr net.IP) (spr.StandardPlacesResult, error) {
 	return pr.resultToWOFStandardPlacesResult(r)
 }
 
-func resultToWOFStandardPlacesResult(r interface{}) (spr.StandardPlacesResult, error) {
+func (pr *WOFProvider) resultToWOFStandardPlacesResult(r interface{}) (spr.StandardPlacesResult, error) {
 
 	i := r.(map[string]interface{})
 	str_body, ok := i["spr"]

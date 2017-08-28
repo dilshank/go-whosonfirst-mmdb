@@ -8,6 +8,8 @@ self:   prep rmdeps
 	if -d src; then rm -rf src; fi
 	mkdir -p src/github.com/whosonfirst/go-whosonfirst-mmdb/
 	cp *.go src/github.com/whosonfirst/go-whosonfirst-mmdb/
+	mkdir -p src/github.com/whosonfirst/go-whosonfirst-mmdb/provider
+	cp provider/*.go src/github.com/whosonfirst/go-whosonfirst-mmdb/provider/
 	cp -r vendor/* src/
 	cp -r vendor/github.com/whosonfirst/go-whosonfirst-geojson-v2/vendor/src/github.com/tidwall src/github.com/
 	cp -r vendor/github.com/whosonfirst/go-whosonfirst-geojson-v2/vendor/src/github.com/whosonfirst/go-whosonfirst-hash src/github.com/whosonfirst/
@@ -19,9 +21,10 @@ rmdeps:
 build:	fmt bin
 
 deps:
+	@GOPATH=$(GOPATH) go get -u "github.com/oschwald/maxminddb-golang"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-csv"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-geojson-v2"
-	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-iplookup"
+	# @GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-iplookup"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-log"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-spr"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-uri"
@@ -38,4 +41,6 @@ fmt:
 	go fmt cmd/*.go
 
 bin: 	self
+	@GOPATH=$(GOPATH) go build -o bin/wof-mmdb cmd/wof-mmdb.go
+	@GOPATH=$(GOPATH) go build -o bin/wof-mmdb-server cmd/wof-mmdb-server.go
 	@GOPATH=$(GOPATH) go build -o bin/wof-mmdb-lookup cmd/wof-mmdb-lookup.go
