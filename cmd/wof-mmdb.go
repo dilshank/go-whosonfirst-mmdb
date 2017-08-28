@@ -18,7 +18,7 @@ func main() {
 
 	logger := log.SimpleWOFLogger()
 
-	pr, err := provider.NewWOGProvider(*db)
+	pr, err := provider.NewWOFProvider(*db)
 
 	if err != nil {
 		logger.Fatal("failed to create IPLookup because %v", err)

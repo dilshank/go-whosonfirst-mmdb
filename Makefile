@@ -35,6 +35,7 @@ vendor-deps: rmdeps deps
 	cp -r src/* vendor/
 	find vendor -name '.git' -print -type d -exec rm -rf {} +
 	rm -rf src
+	rm -rf vendor/github.com/whosonfirst/go-whosonfirst-iplookup/vendor/github.com/whosonfirst/*
 
 fmt:
 	go fmt *.go
