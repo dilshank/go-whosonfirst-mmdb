@@ -36,6 +36,7 @@ vendor-deps: rmdeps deps
 	find vendor -name '.git' -print -type d -exec rm -rf {} +
 	rm -rf src
 	rm -rf vendor/github.com/whosonfirst/go-whosonfirst-iplookup/vendor/github.com/whosonfirst/*
+	rm -rf vendor/github.com/oschwald/maxminddb-golang/test-data
 
 fmt:
 	go fmt *.go
