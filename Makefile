@@ -11,23 +11,26 @@ self:   prep rmdeps
 	mkdir -p src/github.com/whosonfirst/go-whosonfirst-mmdb/provider
 	cp provider/*.go src/github.com/whosonfirst/go-whosonfirst-mmdb/provider/
 	cp -r vendor/* src/
-	cp -r vendor/github.com/whosonfirst/go-whosonfirst-geojson-v2/vendor/src/github.com/tidwall src/github.com/
-	cp -r vendor/github.com/whosonfirst/go-whosonfirst-geojson-v2/vendor/src/github.com/whosonfirst/go-whosonfirst-hash src/github.com/whosonfirst/
-	cp -r vendor/github.com/whosonfirst/go-whosonfirst-geojson-v2/vendor/src/github.com/whosonfirst/go-whosonfirst-placetypes src/github.com/whosonfirst/
 
 rmdeps:
 	if test -d src; then rm -rf src; fi 
 
 build:	fmt bin
 
+# if you're wondering about the 'rm -rf' stuff below it's because Go is
+# weird... https://vanduuren.xyz/2017/golang-vendoring-interface-confusion/
+# (20170912/thisisaaronland)
+
 deps:
 	@GOPATH=$(GOPATH) go get -u "github.com/oschwald/maxminddb-golang"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-csv"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-geojson-v2"
-	# @GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-iplookup"
+	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-iplookup"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-log"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-spr"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-uri"
+	rm -rf src/github.com/whosonfirst/go-whosonfirst-iplookup/vendor/github.com/whosonfirst/go-whosonfirst-spr
+	rm -rf src/github.com/whosonfirst/go-whosonfirst-geojson-v2/vendor/github.com/whosonfirst/go-whosonfirst-flags
 
 vendor-deps: rmdeps deps
 	if test -d vendor; then rm -rf vendor; fi
@@ -35,7 +38,6 @@ vendor-deps: rmdeps deps
 	cp -r src/* vendor/
 	find vendor -name '.git' -print -type d -exec rm -rf {} +
 	rm -rf src
-	rm -rf vendor/github.com/whosonfirst/go-whosonfirst-iplookup/vendor/github.com/whosonfirst/*
 	rm -rf vendor/github.com/oschwald/maxminddb-golang/test-data
 
 fmt:

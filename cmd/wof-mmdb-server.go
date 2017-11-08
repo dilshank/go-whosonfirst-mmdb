@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/facebookgo/grace/gracehttp"
 	"github.com/whosonfirst/go-whosonfirst-iplookup/http"
 	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/whosonfirst/go-whosonfirst-mmdb/provider"
@@ -52,7 +51,7 @@ func main() {
 	mux.Handle("/", lookuphandler)
 	mux.Handle("/ping", pinghandler)
 
-	err = gracehttp.Serve(&gohttp.Server{Addr: endpoint, Handler: mux})
+	err = gohttp.ListenAndServe(endpoint, mux)
 
 	if err != nil {
 		logger.Fatal("failed to start server because %s", err)
